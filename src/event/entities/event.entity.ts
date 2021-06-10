@@ -31,13 +31,6 @@ export class Event {
     description: string;
 
     @ApiProperty({
-        description:'Identifiant de l\'évenement',
-        minimum:1,
-        default:1
-    })
-    id: number;
-
-    @ApiProperty({
         enum: ['aucun','mail', 'sms', ]
     })
     rappel!: Rappel;
