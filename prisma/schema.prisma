@@ -6,19 +6,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Event {
-  id    Int   @id @default(autoincrement())
-  name  String
-  lastName  String
-  email String @unique
-  title String
-  begin String
-  end   String
-  description String
-  rappel  String
-  
-}
+
 
 generator client {
   provider = "prisma-client-js"
+}
+
+model Event {
+  id    Int   @id @default(autoincrement())
+  person Json
+  title String
+  begin DateTime @default(now())
+  end   DateTime @default(now())
+  description String
+  rappel  String @default("aucun")
+  
 }

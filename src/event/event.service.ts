@@ -1,67 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-import {list} from './data'
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class EventService {
 
-  constructor(){   
+  constructor(private readonly prisma: PrismaService){   
   }
 
-  List=list
 
-  create(createEventDto: CreateEventDto) {
-    this.List= [...this.List, createEventDto]
-    return {
-      success: true,
-      event: 'Element ajouté avec succés'
-    };
+  async create(createEventDto: CreateEventDto) {
+    return await this.prisma.event.create({data: createEventDto})
   }
 
-  findAll(): any[] {
-    return this.List;
+  async findAll() {
+    return await this.prisma.event.findMany()
   }
 
-  findOne(id: number): {} {
+  async findOne(id: number) {
     
-    let x = this.List.find(el=> el.id==id)
-    
-    if(!x){
-      return new NotFoundException(`Aucun element ne correspond à l'identifiant ${id}`)
-    }
-    return {
-      success: true,
-      event: x
-    }
+    return await this.prisma.event.findUnique({
+      where: {
+        id : +id
+      },
+    })
   }
 
-  update(id: number, updateEventDto: UpdateEventDto): {} {
-    let x = this.List.find(el=> el.id==id)
-    let i = this.List.findIndex(el=> el.id==id)
-    
-    this.List[i]={...this.List[i], ...updateEventDto}
-    if(!x){
-      return new NotFoundException(`Aucun element ne correspond à l'identifiant ${id}`)
-    }
-    return {
-      success: true,
-      event: 'l\'élement '+ id+ ' à été modifié avec succés'
-    }
+  async update(id: number, updateEventDto: UpdateEventDto) {
+    return await this.prisma.event.update({
+      where: {
+        id: +id
+      },
+      data: updateEventDto
+    })
   }
 
-  remove(id: number):{} {
-    let x = this.List.find(el=> el.id==id)
-    let i = this.List.findIndex(el=> el.id==id)
-    
-    this.List.splice(i, 1)
-    if(!x){
-      return new NotFoundException(`Aucun element ne correspond à l'identifiant ${id}`)
-    }
-    return {
-        success: true,
-        event: `Evenement ${id} est supprimé avec succes`
+  async remove(id: number){
+    return await this.prisma.event.delete({
+      where: {
+        id: +id
       }
-    
+    })
   }
 }

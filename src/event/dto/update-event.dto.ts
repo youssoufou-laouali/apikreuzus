@@ -17,15 +17,15 @@ export class UpdateEventDto extends PartialType(CreateEventDto) {
 
     @ApiProperty({
         description:'Date et heure du debut de l\'évenement',
-        default: Date.now()
+        default: new Date()
     })
-    begin!: string;
+    begin!: Date;
 
     @ApiProperty({
         description: 'Date et heure du fin de l\'évenemnt',
-        default: Date.now()
+        default: new Date()
     })
-    end!: string;
+    end!: Date;
 
 
     @ApiProperty({

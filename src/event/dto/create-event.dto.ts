@@ -1,4 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsString, IsNotEmpty, isDate, IsDateString } from "class-validator";
+
 
 enum Rappel {
     aucun= 'aucun',
@@ -10,32 +12,31 @@ export class CreateEventDto {
         description:'Le titre de l\'événement',
         default: 'Audience avec le DG du KREEZUS'
     })
+    @IsString()
+    @IsNotEmpty()
     title: string;
 
     @ApiProperty({
         description:'Date et heure du debut de l\'évenement',
-        default: Date.now()
+        default: new Date()
     })
-    begin: string;
+    @IsDateString()
+    @IsNotEmpty()
+    begin: Date;
 
     @ApiProperty({
         description: 'Date et heure du fin de l\'évenemnt',
-        default: Date.now()
+        default: new Date()
     })
-    end: string;
+    @IsDateString()
+    @IsNotEmpty()
+    end: Date;
 
     @ApiProperty({
         description:'La description de l\'évenement',
         default: 'Exposition du projet Walt'
     })
     description: string;
-
-    @ApiProperty({
-        description:'Identifiant de l\'évenement',
-        minimum:1,
-        default:1
-    })
-    id: number;
 
     @ApiProperty({
         enum: ['aucun','mail', 'sms', ]

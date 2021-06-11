@@ -16,26 +16,19 @@ export class Event {
         description:'Date et heure du debut de l\'évenement',
         default: Date.now()
     })
-    begin: string;
+    begin: Date;
 
     @ApiProperty({
         description: 'Date et heure du fin de l\'évenemnt',
         default: Date.now()
     })
-    end: string;
+    end: Date;
 
     @ApiProperty({
         description:'La description de l\'évenement',
         default: 'Exposition du projet Walt'
     })
     description: string;
-
-    @ApiProperty({
-        description:'Identifiant de l\'évenement',
-        minimum:1,
-        default:1
-    })
-    id: number;
 
     @ApiProperty({
         enum: ['aucun','mail', 'sms', ]
